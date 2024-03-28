@@ -1,1 +1,1 @@
-build Command - npm start
+Build command - npm start
