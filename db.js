@@ -37,12 +37,6 @@ async function remover(id) {
 
 async function editar(id, novo) {
     const db = await conexao();
-    const postExistente = await db.collection("posts").findOne({ _id: new ObjectId(id) });
-    if (novo.imagem && novo.imagem !== postExistente.imagem) {
-        novo.imagem = novo.imagem;
-    } else {
-        novo.imagem = postExistente.imagem;
-    }
     await db.collection("posts").updateOne({ _id: new ObjectId(id) }, { $set: novo });
 }
 
