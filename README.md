@@ -1,1 +1,1 @@
-build comander - npm start
+build Command - npm start
