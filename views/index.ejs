@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/reset.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/script.js"></script>
+
+
+</head>
+
+<body class="body">
+    <header class="header">
+        <img class="logo_header" src="/images/logoHeader.svg" alt="Logo do cabeçalho">
+    </header>
+
+
+    <section class="feed">
+        <div class="main">
+
+            <div class="newPost">
+                <img src="/images/logoNewPost.svg" alt="Ícone de novo post">
+                <form action="/save" method="POST" class="formNewPost" enctype="multipart/form-data">
+                    <div class="texts">
+                        <textarea name="tema" class="title" placeholder="Escreva seu tema..."></textarea>
+                        <textarea name="texto" class="publication" placeholder="Escreva sua publicação..."></textarea>
+                        <div class="image-preview">
+                            <img id="image-preview" src="/images/addphoto.svg">
+                        </div>
+                    </div>
+
+
+
+                    <div class="buttons">
+                        <button type="submit" class="button2">Publicar <img src="/images/log-out.svg"
+                                alt="Ícone de publicar"></button>
+                        <label for="file-upload" class="custom-file-upload">
+                            Escolha a imagem <img src="/images/image.svg" alt="">
+                        </label>
+                        <input id="file-upload" type="file" name="imagem" class="input-file"
+                            onchange="previewImage(event)">
+                    </div>
+                </form>
+            </div>
+
+            <% for(let i=resultado.length - 1; i>= 0; i--) { %>
+                <div class="post" id="post_<%= resultado[i].id %>">
+                    <div class="user">
+                        <img src="/images/logoNewPost.svg" class="logoPost" alt="Logo do post">
+                        <div class="username">
+                            <h1 class="namePost">Include Jr</h1>
+                            <span class="descriptionName">Dev. web | soluções inovadoras</span>
+                        </div>
+                    </div>
+                    <div class="descriptionPost">
+                        <h1 class="titlePost">
+                            <%= resultado[i].tema %>
+                        </h1>
+                        <p class="contentPost">
+                            <%= resultado[i].texto %>
+                        </p>
+                        <% if(resultado[i].imagem) { %>
+                            <img class="postImage" src="/<%= resultado[i].imagem.replace(/\\/g, '/') %>"
+                                alt="Imagem do post">
+                            <% } %>
+                                <div class="buttons">
+                                    <button class="button2 edit-button"
+                                        data-post-id="<%= resultado[i]._id %>">Editar<img src="/images/edittext.svg"
+                                            alt="Ícone de publicar"></button>
+                                    <form action="/delete" method="POST">
+                                        <input type="hidden" name="postId" value="<%= resultado[i]._id %>">
+                                        <button type="submit" class="button1">Excluir<img
+                                                src="/images/bin.svg"></button>
+                                    </form>
+                                </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="newPostmodal" id="modal_<%= resultado[i]._id %>">
+                    <span class="close-button">&times;</span>
+                    <img src="/images/logoNewPost.svg" alt="Ícone de novo post">
+                    <div class="username">
+                        <h1 class="namePost">Include Jr</h1>
+                        <span class="descriptionName">Dev. web | soluções inovadoras</span>
+                    </div>
+                    <form action="/edit" method="POST" class="formNewPostmodal" enctype="multipart/form-data">
+                        <div class="texts">
+                            <input type="hidden" name="postId" value="<%= resultado[i]._id %>">
+                            <textarea name="tema" class="title"><%= resultado[i].tema %></textarea>
+                            <textarea name="texto" class="publication"><%= resultado[i].texto %></textarea>
+                            <div class="image-preview">
+                                <img id="image-preview-<%= resultado[i]._id %>" src="<%= resultado[i].imagem %>"
+                                    alt="Pré-visualização da imagem">
+                            </div>
+                        </div>
+
+                        <div class="buttons">
+                            <label for="file-upload-<%= resultado[i]._id %>" class="custom-file-upload">Nova imagem<img
+                                    src="/images/image.svg" alt=""></label>
+                            <input id="file-upload-<%= resultado[i]._id %>" type="file" name="imagem" class="input-file"
+                                onchange="previewImage(event)">
+                            <button type="submit" class="button2">Atualizar post<img src="/images/update.svg"></button>
+                        </div>
+                    </form>
+                </div>
+
+                <% } %>
+
+
+
+        </div>
+
+
+        <div class="recent">
+            <div class="recents">
+                <h1 class="titlesection">Ultimas publicações</h1>
+                <% for(let i=resultado.length - 1; i>= Math.max(resultado.length - 3, 0); i--) { %>
+                    <div class="postsrecents">
+                        <h2 class="article">
+                            <%= resultado[i].tema%>
+                        </h2>
+
+                    </div>
+                    <%}%>
+            </div>
+
+            <h1 class="copyright">Direitos reservados à empresa Include Jr.</h1>
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+        <img src="/images/logoHeader.svg" alt="Logo do rodapé">
+        <span class="textFooter">Direitos reservados à empresa Include Jr.</span>
+        <div class="icons">
+            <img src="/images/mail.svg" alt="Ícone de e-mail">
+            <img src="/images/linkedin.svg" alt="Ícone do LinkedIn">
+            <img src="/images/instagram.svg" alt="Ícone do Instagram">
+        </div>
+    </footer>
+
+</body>
+
+</html>
